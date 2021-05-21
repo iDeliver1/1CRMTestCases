@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Suite">
-  <test name="Test">
+  <test name="Test1">
     <classes>
       <class name="salesOrderPackage.TC001_Creating_Qoute_Converting_To_SalesOrder"/>
     </classes>
-  </test> <!-- Test -->
+  </test>
+  
+  <test name="Test2">
+    <classes>
+      <class name="salesOrderPackage.TC002_Converting_SalesOrder_To_Invoicing"/>
+    </classes>
+  </test> 
+  
+  <test name="Test3">
+    <classes>
+      <class name="salesOrderPackage.TC003_Invoice_To_Payment"/>
+    </classes>
+  </test> 
+  
+   <!-- Test -->
 </suite> <!-- Suite -->
