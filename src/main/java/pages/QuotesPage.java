@@ -29,7 +29,7 @@ public class QuotesPage extends PageBase {
 	@FindBy(xpath ="//div[@class='tally-footer-links column']/div[1]/span[1]")
     private WebElement addProduct;
 	
-	@FindBy(xpath ="//div[contains(text(),'HP LaserJet Pro M476DW MFP')]")
+	@FindBy(xpath ="//div[5]/div[1]/div[2]/div[2]")
     private WebElement product;
 	
 	@FindBy(xpath ="//body/div[@id='outer-body']/div[@id='main-body']/div[@id='content-main']/div[1]/form[1]/div[4]/div[1]/div[1]/div[1]/button[1]/div[1]")
