@@ -58,13 +58,19 @@ public class QuotesPage extends PageBase {
 	public void createQuoteSubject(String subject) throws Throwable {
 		waitDriver();
 		createBtn.click();
+		waitForElementToAppear(quoteSubject);
+		
 		quoteSubject.sendKeys(subject+" quote");
 		note.sendKeys(subject+" quote");
 	}
 	
 	public void billAccount(String billAc) throws Throwable {
 		waitDriver();
+		waitForElementToClickable(billAccount);
+		
 		billAccount.click();
+		
+		waitForElementToAppear(billAccountType);
 		billAccountType.sendKeys(billAc);
 		waitDriver();
 		billAccountList.click();
@@ -73,6 +79,7 @@ public class QuotesPage extends PageBase {
 	public void addProduct() throws Throwable {
 		addProduct.click();
 		waitDriver();
+		waitForElementToClickable(product);
 		product.click();
 		waitDriver();
 		saveBtn.click();
