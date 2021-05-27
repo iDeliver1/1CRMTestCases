@@ -63,7 +63,11 @@ public class TestBase {
 			throw new SkipException(getClass().getSimpleName()+" has been skipped");
 		}
 		
-		setDriverProperty();
+		//setDriverProperty();
+	    	System.setProperty("webdriver.chrome.driver", "C://SeleniumWebDrivers//ChromeDriver//chromedriver.exe");
+
+		//Creating an object of ChromeDriver
+		driver = new ChromeDriver();
 		driver.get(prop.getProperty("AppUrl"));
 		
 		e_driver = new EventFiringWebDriver(driver);
