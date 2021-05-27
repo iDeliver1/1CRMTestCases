@@ -48,6 +48,10 @@ public class ShippingAndInvoicePage extends PageBase {
 	@FindBy(xpath ="//div[@id='_form_header']//h3")
     private WebElement shipNo;
 	
+	@FindBy(xpath ="//div[3]/div[1]/div[3]/table[1]/tbody[1]/tr[1]/td[2]")
+	//*[@id="listView-4b9e-main"]/tbody/tr/td[2]
+    private WebElement invoiceNo;
+	
 	@FindBy(xpath ="//div[@id='DetailFormassigned_user-input']")
     private WebElement assignedUser;
 	
@@ -140,4 +144,11 @@ public class ShippingAndInvoicePage extends PageBase {
 		
 	}
 
+	
+	public String getInvoiceNo() throws Throwable {
+		waitDriver();
+		moveToElement(invoiceNo);
+		return invoiceNo.getText();
+		
+	}
 }

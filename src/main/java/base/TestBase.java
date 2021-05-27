@@ -65,6 +65,7 @@ public class TestBase {
 		
 		setDriverProperty();
 		driver.get(prop.getProperty("AppUrl"));
+		
 		e_driver = new EventFiringWebDriver(driver);
 		eventListener = new WebEventListener();
 		e_driver.register(eventListener);

@@ -30,6 +30,9 @@ public class SalesOrder extends PageBase {
 	
 	@FindBy(xpath = "//div[@id='DetailFormbilling_account-input']")
 	public WebElement billAccount;
+	@FindBy(xpath = "//div[1]/div[1]/div[3]/div[2]/div[1]/div[1]/input[1]")
+	public WebElement purchaseOrderNo;
+	//div[1]/div[1]/div[3]/div[2]/div[1]/div[1]/input[1]
 	
 	@FindBy(xpath = "//body/div[@id='DetailFormbilling_account-search']/div[1]/div[1]/div[1]/input[1]")
 	public WebElement billAccountType;
@@ -91,7 +94,7 @@ public class SalesOrder extends PageBase {
 	@FindBy(xpath ="//tbody//tr//td")
     private List< WebElement> salesOrderNoList;
 	
-	//tbody/tr//td
+String POName;
 	
 	public SalesOrder(WebDriver driver) {
 		setWebDriver(driver);
@@ -103,7 +106,10 @@ public class SalesOrder extends PageBase {
 	}
 	
 	public void salesOrder(String subject, String soNote) {
+		 POName = subject;
+
 		soSubject.sendKeys(subject+" Sales Order");
+		note.clear();
 		note.sendKeys(soNote);
 		delDate.click();
 		delDateType.sendKeys(TestUtil.getLeaveDate(5));
@@ -113,6 +119,10 @@ public class SalesOrder extends PageBase {
 	public void billAccount(String billAc) throws Throwable {
 		billAccount.click();
 		billAccountType.sendKeys(billAc);
+		waitDriver();
+		
+		purchaseOrderNo.sendKeys("PO "+POName);
+		
 		waitDriver();
 		billAccountList.click();
 		currencyType.click();
@@ -146,7 +156,10 @@ public class SalesOrder extends PageBase {
 		waitDriver();
 		soSubject.clear();
 		soSubject.sendKeys(subject+" Sales Order");
+		note.clear();
 		note.sendKeys(subject+" Sales Order");
+		
+		purchaseOrderNo.sendKeys("PO "+subject);
 		saveBtn.click();
 		if(validateSoStatus().equalsIgnoreCase("Ordered")) {
 			return new ShippingAndInvoicePage(pbDriver);

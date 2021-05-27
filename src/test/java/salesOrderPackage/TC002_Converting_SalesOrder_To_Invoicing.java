@@ -28,6 +28,17 @@ public class TC002_Converting_SalesOrder_To_Invoicing extends TestBase {
 	
 	@Test(dataProvider = "testData")
 	public void salesOrderTest(String userName, String password, String subject, String note, String billAccount,String shippingAc, String product, String itemCount, String cost, String slipNo) throws Throwable {
+		
+		//Checking Browser is Open  or not 
+		
+				try {
+					Assert.assertEquals("Login | 1CRM System", driver.getTitle());
+					reporting("Launch Application Validation", "1CRM Login Page should be displayed ", "Application Launched Successfully", "Pass");
+					
+				}catch(Exception e) {
+					reporting("Launch Application Validation", "1CRM Login Page should be displayed ", "Unable to launch Application ", "Fail");
+				}
+		
 		//Login
 	
 		pgLogin = new LoginPage(driver);
@@ -61,17 +72,17 @@ public class TC002_Converting_SalesOrder_To_Invoicing extends TestBase {
 		System.out.println(ExcelLibraries.testCaseName);
 		try {
 			Assert.assertEquals(checkBlnMethod, true);
-			orderNo = pgShip.getShipNo();
+	
 			status =pgShip.validateSoStatus();
-			
+			orderNo = pgShip.getShipNo();
 			ExcelLibraries.setExcelOutput("shipping Number", orderNo);
 			
 			ExcelLibraries.setExcelOutput("shipping Status", status);
 			
-			reporting("Shipping Validation", "Sales Order should be Shipped", "Sales Order shipped Successfully with shipping No- "+orderNo, "Pass");
+			reporting("Shipping Validation", "Dynamic Shippment Number should be Generated ", "Generated  Shippment Number - "+orderNo, "Pass");
 			
 		}catch(AssertionError E) {
-			reporting("Shipping Validation", "Sales Order should be Shipped", "Sales Order shipping Failed", "Fail");
+			reporting("Shipping Validation", "Dynamic Shippment Number should be Generated", "Failed to Generate Shippment Number", "Fail");
 		}
 		
 		//Convert to invoice
@@ -79,14 +90,15 @@ public class TC002_Converting_SalesOrder_To_Invoicing extends TestBase {
 		
 		try {
 			Assert.assertEquals(checkBlnMethod, true);
+		
 			status =pgShip.validateSoStatus();
-			orderNo = pgShip.getShipNo();
+			orderNo = pgShip.getInvoiceNo();
 			ExcelLibraries.setExcelOutput("Invoice Number", orderNo);
 			ExcelLibraries.setExcelOutput("Invoice Status", status);
-			reporting("Create Invoice Validation", "Sales Order Invoice should be created", "Invoice created Successfully with Invoice No- "+orderNo, "Pass");
+			reporting("Create Invoice Validation", "Dynamic Invoice Number should be generated ", "Generated Invoice Number - "+orderNo, "Pass");
 			
 		}catch(AssertionError E) {
-			reporting("Create Invoice Validation", "Sales Order Invoice should be created", "Invoice creation Failed", "Fail");
+			reporting("Create Invoice Validation", "Dynamic Invoice Number should be generated", "Failed to generate Inovice Number", "Fail");
 		}
 		
 	

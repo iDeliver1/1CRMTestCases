@@ -21,6 +21,17 @@ public class TC003_Invoice_To_Payment extends TestBase {
 	
 	@Test(dataProvider = "testData")
 	public void convertInvoiceToPayment(String userName, String password, String subject, String note, String billAccount,String shippingAc, String product, String itemCount, String cost, String slipNo) throws Throwable {
+		
+		//Checking Browser is Open  or not 
+		
+				try {
+					Assert.assertEquals("Login | 1CRM System", driver.getTitle());
+					reporting("Launch Application Validation", "1CRM Login Page should be displayed ", "Application Launched Successfully", "Pass");
+					
+				}catch(Exception e) {
+					reporting("Launch Application Validation", "1CRM Login Page should be displayed ", "Unable to launch Application ", "Fail");
+				}
+		
 		//Login
 				 pgLogin = new LoginPage(driver);
 				 pgDashboard = pgLogin.userLogin(userName,password);
@@ -37,16 +48,18 @@ public class TC003_Invoice_To_Payment extends TestBase {
 			String orderNo = ExcelLibraries.getExcelOutput(ExcelLibraries.getTestColValue("Order Number"));
 			 pgPay.selectInvoiceNumber(orderNo);
 			 checkBlnMethod =  pgPay.createPayment();
-			 
+			 orderNo = pgPay.getPaymentNo();
 			 try {
 				 	Assert.assertEquals(true, checkBlnMethod);
 				 
 				 	ExcelLibraries.setExcelOutput("Payment  Number", orderNo);
 					
 					ExcelLibraries.setExcelOutput("Payment  Status", pgPay.validatePaymentStatus());
+					
+					reporting("Payment Validation", "Dynamic Payment Number should be generated", " Generated  Payment Number - "+orderNo, "Pass");
 				 
 			 }catch(Exception E) {
-				 
+				 reporting("Payment Validation", "Dynamic Payment Number should be generated", "Failed to generate Payment Number", "Fail");
 			 }
 	 
 	}

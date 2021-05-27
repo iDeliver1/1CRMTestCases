@@ -40,6 +40,10 @@ public class PaymentPage extends PageBase {
 	@FindBy(xpath ="//tbody//tr//td")
     private List< WebElement> invoiceNoList;
 	
+	@FindBy(xpath = "//div[3]/div[1]/div[3]/table[1]/tbody[1]/tr[1]/td[2]")
+	private WebElement paymentNO;
+	//div[3]/div[1]/div[3]/table[1]/tbody[1]/tr[1]/td[2]
+	
 
 	public PaymentPage(WebDriver driver) {
 		setWebDriver(driver);
@@ -81,7 +85,7 @@ public class PaymentPage extends PageBase {
 	
 	public void selectInvoiceNumber(String invoiceNumber) throws Throwable {
 		waitDriver();
-		invoiceNumber=invoiceNumber.replace(" — ", "");
+		invoiceNumber=invoiceNumber.replace(" — ", "").replace("\n", "");
 		
 int rowCount  = invoiceNoList.size();
 		
@@ -89,7 +93,7 @@ int rowCount  = invoiceNoList.size();
 			
 			String Value = invoiceNoList.get(i).getText().replace("\n", "").replace("\r", "");
 			System.out.println(Value);
-			if(Value.matches(invoiceNumber)) {
+			if(Value.equalsIgnoreCase(invoiceNumber)) {
 				
 				WebElement tdValue = pbDriver.findElement(By.xpath("//tbody/tr[" + (i)+ "]/td[2]/div[1]/span[1]"));
 				
@@ -98,6 +102,12 @@ int rowCount  = invoiceNoList.size();
 				break;
 			}
 		}
+		
+	}
+	
+	public String getPaymentNo() {
+		moveToElement(paymentNO);
+		return paymentNO.getText();
 		
 	}
 

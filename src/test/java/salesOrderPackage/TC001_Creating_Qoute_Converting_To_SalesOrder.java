@@ -23,6 +23,15 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 	
 	@Test(dataProvider = "testData")
 	public void createQuoteAndConvertToSalesOrder(String userName, String password, String subject, String note, String billAccount, String shippingAc, String product, String itemCount, String cost, String slipNo) throws Throwable {
+		//Checking Browser is Open  or not 
+		
+		try {
+			Assert.assertEquals("Login | 1CRM System", driver.getTitle());
+			reporting("Launch Application Validation", "1CRM Login Page should be displayed ", "Application Launched Successfully", "Pass");
+			
+		}catch(Exception e) {
+			reporting("Launch Application Validation", "1CRM Login Page should be displayed ", "Unable to launch Application ", "Fail");
+		}
 		
 		//Login
 		LoginPage pgLogin = new LoginPage(driver);
@@ -48,10 +57,10 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 			ExcelLibraries.setExcelOutput("Quote Order Number", orderNo);
 			
 			ExcelLibraries.setExcelOutput("Quote Status", status);
-			reporting("Quote Creation", "Quote should be created", "Quote created Successfully with Quote No - "+orderNo, "Pass");
+			reporting("Quote Creation", "Dynamic Qoute Number should be generate", "Generated  Quote No - "+orderNo, "Pass");
 			
 		}catch(AssertionError E) {
-			reporting("Quote Creation", "Quote should be created", "Quote creation Failed", "Fail");
+			reporting("Quote Creation", "Dynamic Qoute Number should be generate", "Failed to Generate Quote Number", "Fail");
 		}
 		
 		//Convert to sales order
@@ -62,10 +71,10 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 			orderNo = pgSales.getSoNo();
 			ExcelLibraries.setExcelOutput("Sales Order Number", orderNo);
 			ExcelLibraries.setExcelOutput("SO Status", status);
-			reporting("Sales Order Conversion", "Quote should convert to sales order", "Quote Converted to Sales Order with SO- "+orderNo, "Pass");
+			reporting("Sales Order Conversion", "Dynamic Sales Order Number should be generated ", "Generated Sales Order with SO- "+orderNo, "Pass");
 			
 		}catch(AssertionError E) {
-			reporting("Sales Order Conversion", "Quote should convert to sales order", "Sales Order conversion Failed", "Fail");
+			reporting("Sales Order Conversion", "Dynamic Sales Order Number should be generated", "Failed to Generate Sales Order Number", "Fail");
 		}
 		
 		
