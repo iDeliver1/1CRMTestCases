@@ -1,7 +1,9 @@
 package base;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,6 +34,17 @@ public class PageBase {
 	public void waitForElementToClickable(WebElement element) throws Throwable{
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
-
 	
+		public void moveToElement(WebElement element) {
+			Actions actions = new Actions(pbDriver); 
+			   actions.moveToElement(element); 
+		}
+		public void jsExecutorClickOn(WebElement element){
+	        ((JavascriptExecutor) pbDriver).executeScript("arguments[0].click();",element);
+	    }
+		
+		
+		public void jsExecutorscrollIntoView(WebElement element){
+	        ((JavascriptExecutor) pbDriver).executeScript("arguments[0].scrollIntoView();",element);
+	    }
 }

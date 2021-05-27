@@ -21,7 +21,7 @@ import base.TestBase;
 public class TestUtil extends TestBase{
 	static String rootdir;
 	public static String brow;
-	public static String reportFolderPath = System.getProperty("user.dir") + "target/TestReports/";
+	public static String reportFolderPath = System.getProperty("user.dir") + "/Reports/";
 
 	public static String getBrowserVersion() throws IOException {
 		
@@ -108,6 +108,13 @@ public class TestUtil extends TestBase{
 	public static void selectItem(WebElement element,int LeaveFormat) {
 		Select Leave = new Select(element);
 		Leave.selectByIndex(LeaveFormat);
+	}
+	
+	
+	
+	public static void selectItemByVisibleText(WebElement element,String visibleText) {
+		Select list = new Select(element);
+		list.selectByVisibleText(visibleText);
 	}
 	
 	//------------------------get date by format---------------------------------------------------

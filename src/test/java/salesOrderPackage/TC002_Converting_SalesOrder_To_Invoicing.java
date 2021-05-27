@@ -61,8 +61,9 @@ public class TC002_Converting_SalesOrder_To_Invoicing extends TestBase {
 		System.out.println(ExcelLibraries.testCaseName);
 		try {
 			Assert.assertEquals(checkBlnMethod, true);
-			status =pgShip.validateSoStatus();
 			orderNo = pgShip.getShipNo();
+			status =pgShip.validateSoStatus();
+			
 			ExcelLibraries.setExcelOutput("shipping Number", orderNo);
 			
 			ExcelLibraries.setExcelOutput("shipping Status", status);

@@ -57,7 +57,7 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 	public void onException(Throwable error, WebDriver driver) {
 		log("Exception occured: " + error);
 		try {
-			//TestUtil.getScreenhot("error");
+			TestUtil.getScreenhot("error");
 		}  catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

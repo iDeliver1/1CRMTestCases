@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import base.PageBase;
+import utils.TestUtil;
 
 public class ShippingAndInvoicePage extends PageBase {
 	
@@ -23,10 +24,10 @@ public class ShippingAndInvoicePage extends PageBase {
 	@FindBy(xpath = "//button[@id='DetailForm_save2']")
     private WebElement saveBtn;
 	
-	@FindBy(xpath = "//button[@id='DetailForm_edit']")
+	@FindBy(xpath = "//div[3]/div[1]/form[1]/div[1]/div[1]/div[1]/div[1]/button[1]/span[1]")
     private WebElement editBtn;
 	
-	@FindBy(xpath = "//div[@id='DetailFormshipping_stage-input']")
+	@FindBy(xpath = "//div[3]/div[1]/form[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]")
     private WebElement statusDropDown;
 	
 	@FindBy(xpath = "//div[contains(text(),'Shipped')]")
@@ -76,13 +77,20 @@ public class ShippingAndInvoicePage extends PageBase {
 	
 	public boolean convertStatus() throws Throwable {
 		waitDriver();
+		   
+		waitForElementToAppear(shippingOrder);
 		shippingOrder.click();
 		waitDriver();
-		editBtn.click();
+	jsExecutorClickOn(editBtn);
+	
 		waitDriver();
 		statusDropDown.click();
 		waitDriver();
-		statusShipped.click();
+		
+		
+		jsExecutorClickOn(statusShipped);
+		
+	
 		waitDriver();
 		saveBtn.click();
 		waitDriver();
@@ -96,6 +104,7 @@ public class ShippingAndInvoicePage extends PageBase {
 	
 	public boolean createInvoice(String subject) throws Throwable {
 		waitDriver();
+		
 		soInfo.click();
 		waitDriver();
 		waitForElementToClickable(convertBtn);
@@ -125,8 +134,10 @@ public class ShippingAndInvoicePage extends PageBase {
 		return orderStatus.getText();
 	}
 	
-	public String getShipNo() {
+	public String getShipNo() throws Throwable {
+		waitDriver();
 		return shipNo.getText();
+		
 	}
 
 }

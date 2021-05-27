@@ -89,7 +89,7 @@ int rowCount  = invoiceNoList.size();
 			
 			String Value = invoiceNoList.get(i).getText().replace("\n", "").replace("\r", "");
 			System.out.println(Value);
-			if(Value.matches("invoiceNumber")) {
+			if(Value.matches(invoiceNumber)) {
 				
 				WebElement tdValue = pbDriver.findElement(By.xpath("//tbody/tr[" + (i)+ "]/td[2]/div[1]/span[1]"));
 				

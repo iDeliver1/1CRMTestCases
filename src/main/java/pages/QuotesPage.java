@@ -23,7 +23,7 @@ public class QuotesPage extends PageBase {
 	@FindBy(xpath = "//body/div[@id='DetailFormbilling_account-search']/div[1]/div[1]/div[1]/input[1]")
 	public WebElement billAccountType;
 	
-	@FindBy(xpath = "//div[contains(text(),'24/7 Couriers')]")
+	@FindBy(xpath = "//div[contains(text(),'etcc')]")
 	public WebElement billAccountList;
 	
 	@FindBy(xpath ="//div[@class='tally-footer-links column']/div[1]/span[1]")
