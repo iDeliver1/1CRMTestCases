@@ -40,37 +40,42 @@ public class TC002_Converting_SalesOrder_To_Invoicing extends TestBase {
 				}
 		
 		//Login
-	
+				try {
 		pgLogin = new LoginPage(driver);
 		pgDashboard = pgLogin.userLogin(userName,password);
-		try {
+		
 			Assert.assertNotNull(pgDashboard);
 			reporting("Login Validation", "User should log in", "User Logged in Successfully", "Pass");
 			
-		}catch(AssertionError E) {
+		}catch(Throwable E) {
 			reporting("Login Validation", "User should log in", "User Login Failed", "Fail");
 		}
 	
 		//click Sales order
-		
+		try {
 		pgSales = (SalesOrder) pgDashboard.clickOnTab("Sales Order");
 		orderNo = ExcelLibraries.getExcelOutput(ExcelLibraries.getTestColValue("Order Number"));
 		Thread.sleep(5000);
 		pgSales.selectSalesOrderNo(orderNo);
 
-		try {
+	
 		Assert.assertNotNull(pgSales);
 		pgShip = new ShippingAndInvoicePage(driver);
 		
 		
-		}catch(Exception E) {
+		}catch(Throwable E) {
 			E.printStackTrace();
 		}
 		
+		
+		
+		
+		try {
 		pgShip.convertShipping(subject);
 		checkBlnMethod = pgShip.convertStatus();
 		System.out.println(ExcelLibraries.testCaseName);
-		try {
+		
+			
 			Assert.assertEquals(checkBlnMethod, true);
 	
 			status =pgShip.validateSoStatus();
@@ -81,14 +86,14 @@ public class TC002_Converting_SalesOrder_To_Invoicing extends TestBase {
 			
 			reporting("Shipping Validation", "Dynamic Shippment Number should be Generated ", "Generated  Shippment Number - "+orderNo, "Pass");
 			
-		}catch(AssertionError E) {
+		}catch(Throwable E) {
 			reporting("Shipping Validation", "Dynamic Shippment Number should be Generated", "Failed to Generate Shippment Number", "Fail");
 		}
-		
+		try {
 		//Convert to invoice
 		checkBlnMethod = pgShip.createInvoice(subject);
 		
-		try {
+		
 			Assert.assertEquals(checkBlnMethod, true);
 		
 			status =pgShip.validateSoStatus();
@@ -97,7 +102,7 @@ public class TC002_Converting_SalesOrder_To_Invoicing extends TestBase {
 			ExcelLibraries.setExcelOutput("Invoice Status", status);
 			reporting("Create Invoice Validation", "Dynamic Invoice Number should be generated ", "Generated Invoice Number - "+orderNo, "Pass");
 			
-		}catch(AssertionError E) {
+		}catch(Throwable E) {
 			reporting("Create Invoice Validation", "Dynamic Invoice Number should be generated", "Failed to generate Inovice Number", "Fail");
 		}
 		

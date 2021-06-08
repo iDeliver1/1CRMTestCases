@@ -14,6 +14,8 @@ import utils.ExcelLibraries;
 public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 	
 	String status,orderNo;
+	QuotesPage pgQuotes;
+	SalesOrder pgSales;
 	
 	@DataProvider
 	public Object[][] testData() throws Throwable {
@@ -44,13 +46,13 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 			reporting("Login Validation", "User should log in", "User Login Failed", "Fail");
 		}
 	
-	
+		try {
 		//click on quotes
-		QuotesPage pgQuotes =  (QuotesPage) pgDashboard.clickOnTab("Quotes");
+		 pgQuotes =  (QuotesPage) pgDashboard.clickOnTab("Quotes");
 		
 		//Create Quote
-		SalesOrder pgSales = pgQuotes.createQuotes(subject,billAccount);
-		try {
+		 pgSales = pgQuotes.createQuotes(subject,billAccount);
+		
 			Assert.assertNotNull(pgSales);
 			status =pgQuotes.validateStatus();
 			orderNo = pgQuotes.getQuoteNo();
@@ -59,13 +61,13 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 			ExcelLibraries.setExcelOutput("Quote Status", status);
 			reporting("Quote Creation", "Dynamic Qoute Number should be generate", "Generated  Quote No - "+orderNo, "Pass");
 			
-		}catch(AssertionError E) {
+		}catch(Throwable E) {
 			reporting("Quote Creation", "Dynamic Qoute Number should be generate", "Failed to Generate Quote Number", "Fail");
 		}
 		
-		//Convert to sales order
+		try {//Convert to sales order
 		ShippingAndInvoicePage pgShip = pgSales.convert2Sales(subject);
-		try {
+		
 			Assert.assertNotNull(pgShip);
 			status = pgSales.validateSoStatus();
 			orderNo = pgSales.getSoNo();
@@ -73,47 +75,8 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 			ExcelLibraries.setExcelOutput("SO Status", status);
 			reporting("Sales Order Conversion", "Dynamic Sales Order Number should be generated ", "Generated Sales Order with SO- "+orderNo, "Pass");
 			
-		}catch(AssertionError E) {
+		}catch(Throwable E) {
 			reporting("Sales Order Conversion", "Dynamic Sales Order Number should be generated", "Failed to Generate Sales Order Number", "Fail");
-		}
-		
-		
-		
-		//----------------------------------------Next TestCase--------------------------------------------------
-		
-		//Create shipping
-		/*pgShip.convertShipping(subject);
-		checkBlnMethod = pgShip.convertStatus();
-		
-		try {
-			Assert.assertEquals(checkBlnMethod, true);
-			status =pgShip.validateSoStatus();
-			orderNo = pgShip.getShipNo();
-			
-			ExcelLibraries.setExcelOutput("shipping Status", status);
-			
-			reporting("Shipping Validation", "Sales Order should be Shipped", "Sales Order shipped Successfully with shipping No- "+orderNo, "Pass");
-			
-		}catch(AssertionError E) {
-			reporting("Shipping Validation", "Sales Order should be Shipped", "Sales Order shipping Failed", "Fail");
-		}
-		
-		//Convert to invoice
-		checkBlnMethod = pgShip.createInvoice(subject);
-		
-		try {
-			Assert.assertEquals(checkBlnMethod, true);
-			status =pgShip.validateSoStatus();
-			orderNo = pgShip.getShipNo();
-			ExcelLibraries.setExcelOutput("Invoice Status", status);
-			reporting("Create Invoice Validation", "Sales Order Invoice should be created", "Invoice created Successfully with Invoice No- "+orderNo, "Pass");
-			
-		}catch(AssertionError E) {
-			reporting("Create Invoice Validation", "Sales Order Invoice should be created", "Invoice creation Failed", "Fail");
-		}
-
-		
-		String Value = ExcelLibraries.getTestColValue("Output");
-		System.out.println("----"+ExcelLibraries.getExcelOutput(Value)+"---");*/
+		}	
 	}
 }

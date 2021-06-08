@@ -1,10 +1,9 @@
 package utils;
 
-import org.openqa.selenium.WebDriver;
+
 import org.testng.annotations.AfterTest;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
@@ -42,9 +41,8 @@ public class ExtentReport {
 
 	 
 	 public static ExtentTest createReportName(String step_details){
-		logger = extent.createTest(step_details);
-		childLogger = logger.createNode("System Name - "+ System.getenv("COMPUTERNAME"));
-		extentThread.set(childLogger);
+		logger = extent.createTest(step_details+"</b>"+"System Name - "+ System.getenv("COMPUTERNAME"));
+		extentThread.set(logger);
 		iStepNumber =1;
 		return extentThread.get();	
 	 }

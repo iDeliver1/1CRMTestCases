@@ -33,23 +33,24 @@ public class TC003_Invoice_To_Payment extends TestBase {
 				}
 		
 		//Login
+				try {
 				 pgLogin = new LoginPage(driver);
 				 pgDashboard = pgLogin.userLogin(userName,password);
-				try {
+				
 					Assert.assertNotNull(pgDashboard);
 					reporting("Login Validation", "User should log in", "User Logged in Successfully", "Pass");
 					
-				}catch(AssertionError E) {
+				}catch(Throwable E) {
 					reporting("Login Validation", "User should log in", "User Login Failed", "Fail");
 				}
 				
-				
+				 try {
 			 pgPay =  (PaymentPage) pgDashboard.clickOnTab("Invoice");
 			String orderNo = ExcelLibraries.getExcelOutput(ExcelLibraries.getTestColValue("Order Number"));
 			 pgPay.selectInvoiceNumber(orderNo);
 			 checkBlnMethod =  pgPay.createPayment();
 			 orderNo = pgPay.getPaymentNo();
-			 try {
+			
 				 	Assert.assertEquals(true, checkBlnMethod);
 				 
 				 	ExcelLibraries.setExcelOutput("Payment  Number", orderNo);
@@ -58,7 +59,7 @@ public class TC003_Invoice_To_Payment extends TestBase {
 					
 					reporting("Payment Validation", "Dynamic Payment Number should be generated", " Generated  Payment Number - "+orderNo, "Pass");
 				 
-			 }catch(Exception E) {
+			 }catch(Throwable E) {
 				 reporting("Payment Validation", "Dynamic Payment Number should be generated", "Failed to generate Payment Number", "Fail");
 			 }
 	 

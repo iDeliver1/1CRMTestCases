@@ -14,6 +14,9 @@ import org.testng.SkipException;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+
+import com.aventstack.extentreports.ExtentReports;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ExcelLibraries;
 import utils.ExtentReport;
@@ -29,6 +32,7 @@ public class TestBase {
 	static Logger LOGGER =    Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static EventFiringWebDriver e_driver;
 	public static WebEventListener eventListener;
+	public static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<WebDriver>();
 	
 	public TestBase() {
 		try {
@@ -63,19 +67,20 @@ public class TestBase {
 			throw new SkipException(getClass().getSimpleName()+" has been skipped");
 		}
 		
-		//setDriverProperty();
-	    	System.setProperty("webdriver.chrome.driver", "C://SeleniumWebDrivers//ChromeDriver//chromedriver.exe");
-
-		//Creating an object of ChromeDriver
-		driver = new ChromeDriver();
-		driver.get(prop.getProperty("AppUrl"));
+		setDriverProperty();
+		threadDriver.set(driver);
+		getDriverInstance().get(prop.getProperty("AppUrl"));
 		
-		e_driver = new EventFiringWebDriver(driver);
+		e_driver = new EventFiringWebDriver(getDriverInstance());
 		eventListener = new WebEventListener();
 		e_driver.register(eventListener);
 		driver = e_driver;
 	}
 
+	
+	public synchronized WebDriver getDriverInstance() {	
+		 return threadDriver.get();
+	 }
 	
 	public void reporting(String desc,String exp,String actual,String status) throws Throwable {
 		
