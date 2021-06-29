@@ -25,7 +25,6 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 	
 	@Test(dataProvider = "testData")
 	public void createQuoteAndConvertToSalesOrder(String userName, String password, String subject, String note, String billAccount, String shippingAc, String product, String itemCount, String cost, String slipNo) throws Throwable {
-		//Checking Browser is Open  or not 
 		
 		try {
 			Assert.assertEquals("Login | 1CRM System", driver.getTitle());
@@ -42,7 +41,7 @@ public class TC001_Creating_Qoute_Converting_To_SalesOrder extends TestBase {
 			Assert.assertNotNull(pgDashboard);
 			reporting("Login Validation", "User should log in", "User Logged in Successfully", "Pass");
 			
-		}catch(AssertionError E) {
+		}catch(Throwable E) {
 			reporting("Login Validation", "User should log in", "User Login Failed", "Fail");
 		}
 	

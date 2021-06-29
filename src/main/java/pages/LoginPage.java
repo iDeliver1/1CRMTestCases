@@ -23,6 +23,12 @@ public class LoginPage extends PageBase {
 	
 	@FindBy(xpath = "//div[@class='input-check']/input")
     private WebElement chkBox;
+	//
+	
+	
+	@FindBy(xpath = "//span[@id='login-error']")
+    private WebElement errorBox;
+	//span[@id='login-error']
 	
 
 	public LoginPage(WebDriver driver) {
@@ -39,7 +45,7 @@ public class LoginPage extends PageBase {
 		TestUtil.selectItem(theme, 2);
 		loginBtn.click();
 		waitDriver();
-		if(loginValidation().equalsIgnoreCase("1CRM: Home Dashboard"))
+		if(!errorBox.isDisplayed())
 			return new DashboardPage(pbDriver);
 		else
 			return null;

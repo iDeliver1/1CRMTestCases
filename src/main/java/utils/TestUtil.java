@@ -144,5 +144,22 @@ public class TestUtil extends TestBase{
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
 	}
+	
+	public static String createLogFile() {
+		
+		try {
+		      File myObj = new File(System.getProperty("user.dir") + "/Reports/Log_Reports/loggerReport"+getTimeStamp()+".log");
+		      if (myObj.createNewFile()) {
+		        System.out.println("File created: " + myObj.getName());
+		        return myObj.getName();
+		      } else {
+		        System.out.println("File already exists.");
+		      }
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+		return null;
+	}
 }
 	

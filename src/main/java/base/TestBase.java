@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,14 +15,12 @@ import org.testng.SkipException;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
-
-import com.aventstack.extentreports.ExtentReports;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utils.ExcelLibraries;
 import utils.ExtentReport;
 import utils.TestUtil;
 import utils.WebEventListener;
+
 
 public class TestBase {
 	protected static WebDriver driver;
@@ -32,7 +31,9 @@ public class TestBase {
 	static Logger LOGGER =    Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static EventFiringWebDriver e_driver;
 	public static WebEventListener eventListener;
-	public static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<WebDriver>();
+	boolean append = true;
+    static FileHandler handler;
+    public static String logFolderLocation = System.getProperty("user.dir") + "/Reports/Log_Reports/";
 	
 	public TestBase() {
 		try {
@@ -66,21 +67,21 @@ public class TestBase {
 			ExtentReport.skipReport();
 			throw new SkipException(getClass().getSimpleName()+" has been skipped");
 		}
+		System.out.println(logFolderLocation+TestUtil.createLogFile());
+		handler = new FileHandler(logFolderLocation+TestUtil.createLogFile(), append);
 		
 		setDriverProperty();
-		threadDriver.set(driver);
-		getDriverInstance().get(prop.getProperty("AppUrl"));
 		
-		e_driver = new EventFiringWebDriver(getDriverInstance());
+		driver.get(prop.getProperty("AppUrl"));
+		
+		e_driver = new EventFiringWebDriver(driver);
 		eventListener = new WebEventListener();
 		e_driver.register(eventListener);
 		driver = e_driver;
 	}
 
 	
-	public synchronized WebDriver getDriverInstance() {	
-		 return threadDriver.get();
-	 }
+	
 	
 	public void reporting(String desc,String exp,String actual,String status) throws Throwable {
 		
@@ -93,12 +94,14 @@ public class TestBase {
 	
 	public static void log(String data) {
 		
-		LOGGER.fine(data);
+		LOGGER.info(data);
 		Reporter.log(data);
+		LOGGER.addHandler(handler);
 	}
 	
     @AfterTest
     public static void closeBrowser() throws Throwable {
+    
     	ExcelLibraries.setEndTime();
     	ExcelLibraries.resetCount();
         driver.close();
@@ -113,4 +116,7 @@ public class TestBase {
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 	}
+    
+    
+    
 }
